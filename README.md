@@ -1,4 +1,4 @@
-# Jenkins and Jenkins slave + Ansible on Jenkins host
+# Jenkins and Jenkins agent + Ansible on Jenkins host
 
 It is a simple configuration for Vagrant+virtualbox that deploys two servers: 
 
