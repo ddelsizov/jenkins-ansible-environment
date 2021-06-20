@@ -1,0 +1,38 @@
+---
+- name: Setup Jenkins Master
+  hosts: controller
+  become: true
+  vars:
+    jenkins_hostname: localhost
+    java_packages:
+      - java-11-openjdk-devel.x86_64
+      
+    jenkins_admin_username: ddelsizov
+    jenkins_admin_password: secretpassword
+    
+    jenkins_plugins:
+    - ssh
+    - docker-plugin
+    
+  roles:
+    - role: geerlingguy.java
+    - role: geerlingguy.jenkins
+    
+- name: Install Docker on Slave
+  hosts: slave_servers
+  roles:
+    - geerlingguy.docker
+    
+  tasks:
+    - name: Add vagrant user to docker group
+      user:
+        name: 'vagrant'
+        groups: docker
+        append: yes
+        
+    - name: Add jenkins user to docker group
+      user:
+        name: 'jenkins'
+        groups: docker
+        append: yes
+        
