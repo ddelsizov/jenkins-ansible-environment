@@ -13,6 +13,8 @@
     jenkins_plugins:
     - ssh
     - docker-plugin
+    - git
+    - github
     
   roles:
     - role: geerlingguy.java
