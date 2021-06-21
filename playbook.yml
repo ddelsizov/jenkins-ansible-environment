@@ -19,12 +19,30 @@
   roles:
     - role: geerlingguy.java
     - role: geerlingguy.jenkins
+
+- name: Setup Slave role
+  hosts: slave
+  become: true
+
+  vars:
+    master_host: jenkins.home.lab
+    master_port: 8090
+    master_username: ddelsizov
+    master_password: secretpassword
+    slave_linux_jenkins_cred_id: slavehost
+    slave_linux_jenkins_username: jenkins
+    slave_linux_jenkins_password: secretpassword
+    slave_agent_name: slavehost
+    slave_executors_num: 5
+
+  roles:
+    - role: lean_delivery.jenkins_slave
     
 - name: Install Docker on Slave
-  hosts: slave_servers
+  hosts: slave
   roles:
     - geerlingguy.docker
-    
+
   tasks:
     - name: Add vagrant user to docker group
       user:

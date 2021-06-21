@@ -1,12 +1,11 @@
 #!/bin/bash
-echo "*** Add and configure jenkis user and workspace"
+echo "*** Add slave jenkins user"
 sudo useradd jenkins
 sudo echo "jenkins:secretpassword" | sudo chpasswd
 sudo echo 'jenkins ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
-sudo -u jenkins mkdir /home/jenkins/workspace
-sudo -u jenkins mkdir -p /projects/docker
+
+echo "*** Install Git"
 sudo dnf -y install git
-sudo usermod -s /bin/bash jenkins
 
 echo "***Install Java"
 sudo dnf install -y java-11-openjdk-devel
