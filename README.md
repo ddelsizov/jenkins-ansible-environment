@@ -14,17 +14,12 @@ Of course - security is not priority on this project, as it is just a proof of c
 
 - Tighten the security 
 - Deploy more useful plugins for Jenkins once identified
-- Slave provsioning from the ansible playbook is failing on specific step from the role config. Potential work-around, implemented during Vagrant shell provisioning stage of the slave host ->
+- Fix slave role run from the ansible playbook. Failing with: 
 
-***
-echo "*** Add jenkins user and modify stuff"
-sudo useradd jenkins
-sudo echo "jenkins:secretpassword" | sudo chpasswd
-sudo echo 'jenkins ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
-sudo mkdir -p /opt/jenkins
-sudo chmod jenkins:jenkins -R /opt/jenkins
-***
-<-
+ASK [lean_delivery.jenkins_slave : Create slave home directory] ***************
+fatal: [slave]: FAILED! => {"changed": false, "gid": 0, "group": "root", "mode": "0755", "msg": "chgrp failed: failed to look up group user", "owner": "jenkins", "path": "/opt/jenkins", "secontext": "unconfined_u:object_r:usr_t:s0", "size": 6, "state": "directory", "uid": 1001}
+
+
 
 
 
