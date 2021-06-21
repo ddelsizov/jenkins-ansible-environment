@@ -1,9 +1,4 @@
 #!/bin/bash
-echo "*** Add slave jenkins user"
-sudo useradd jenkins
-sudo echo "jenkins:secretpassword" | sudo chpasswd
-sudo echo 'jenkins ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
-
 echo "*** Install Git"
 sudo dnf -y install git
 
