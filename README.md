@@ -1,5 +1,7 @@
 # Jenkins Master and Agent(slave) brought up with the help of Vagrant and ansible which is hosted along with Jenkins master.
 
+Often updated and tinkered with, while i explore the products functionalities.
+
 It is a simple configuration for Vagrant+virtualbox that deploys two servers: 
 
 1. Jenkins master host + Ansible
