@@ -3,7 +3,7 @@
   hosts: controller
   become: true
   vars:
-    jenkins_hostname: localhost
+    jenkins_hostname: jenkins.home.lab
     java_packages:
       - java-11-openjdk-devel.x86_64
       
@@ -23,7 +23,7 @@
     
 
 - name: Add Jenkins slave credentials via cli
-  hosts: localhost
+  hosts: controller
   tasks:
     - name: Run script
       shell: /vagrant/credential.sh
@@ -33,7 +33,7 @@
   
   vars:
     master_host: jenkins.home.lab
-    master_port: 8090
+    master_port: 8080
     master_username: ddelsizov
     master_password: secretpassword
     slave_linux_jenkins_cred_id: ci_slave

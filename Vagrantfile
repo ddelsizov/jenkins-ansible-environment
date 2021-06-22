@@ -19,6 +19,17 @@ Vagrant.configure(2) do |config|
     jenkins.vm.network "private_network", ip: "192.168.99.100"
     jenkins.vm.network "forwarded_port", guest: 8080, host: 8090
 	jenkins.vm.synced_folder ".", "/vagrant", mount_options: ["dmode=755", "fmode=755"]	
+	jenkins.vm.provision "shell", inline: <<EOS
+echo "192.168.99.100 jenkins.home.lab jenkins" >> /etc/hosts
+echo "192.168.99.101 slave.home.lab slave" >> /etc/hosts
+sudo firewall-cmd --add-port=8080/tcp --permanent
+sudo firewall-cmd --reload
+sudo useradd jenkins
+sudo echo "jenkins:secretpassword" | sudo chpasswd
+sudo echo 'jenkins ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
+sudo usermod -s /bin/bash jenkins
+sudo echo "jenkins:secretpassword" | sudo chpasswd
+EOS
     jenkins.vm.provision "ansible_local" do |ansible|
     ansible.become = true
     ansible.install_mode = :default
@@ -27,16 +38,7 @@ Vagrant.configure(2) do |config|
     ansible.galaxy_role_file = "requirements.yml"
     ansible.galaxy_roles_path = "/etc/ansible/roles"
 	ansible.inventory_path = "inventory"
-	ansible.playbook = "playbook.yml"  
-	jenkins.vm.provision "shell", inline: <<EOS
-echo "192.168.99.100 jenkins.home.lab jenkins" >> /etc/hosts
-echo "192.168.99.101 slave.home.lab slave" >> /etc/hosts
-sudo firewall-cmd --add-port=8080/tcp --permanent
-sudo firewall-cmd --reload
-sudo dnf -y install git
-sudo usermod -s /bin/bash jenkins
-sudo echo "jenkins:secretpassword" | sudo chpasswd
-EOS
+	ansible.playbook = "playbook.yml"
   end
  end
 end
