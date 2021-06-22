@@ -16,29 +16,29 @@
     - git
     - github
     - credentials
-    - workflow-aggregator
-    - checkstyle
-    - workflow-aggregator
-    - workflow-api
-    - workflow-basic-steps
-    - workflow-cps
-    - workflow-cps-global-lib
-    - workflow-durable-task-step
-    - workflow-job
-    - workflow-scm-step
-    - workflow-step-api
-    - workflow-support
-    - pipeline-stage-view
-    - jquery-detached
-    - momentjs
-    - handlebars
-    - pipeline-rest-api
-    
+
   roles:
     - role: geerlingguy.java
     - role: geerlingguy.jenkins
     
+- name: Install Docker on Slave
+  hosts: slave
+  roles:
+    - geerlingguy.docker
 
+  tasks:
+    - name: Add vagrant user to docker group
+      user:
+        name: 'vagrant'
+        groups: docker
+        append: yes
+        
+    - name: Add jenkins user to docker group
+      user:
+        name: 'jenkins'
+        groups: docker
+        append: yes
+        
 - name: Add Jenkins slave credentials via cli
   hosts: controller
   tasks:
@@ -62,22 +62,3 @@
 
   roles:
     - role: lean_delivery.jenkins_slave
-    
-- name: Install Docker on Slave
-  hosts: slave
-  roles:
-    - geerlingguy.docker
-
-  tasks:
-    - name: Add vagrant user to docker group
-      user:
-        name: 'vagrant'
-        groups: docker
-        append: yes
-        
-    - name: Add jenkins user to docker group
-      user:
-        name: 'jenkins'
-        groups: docker
-        append: yes
-        
