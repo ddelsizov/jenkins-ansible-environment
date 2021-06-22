@@ -1,4 +1,4 @@
-# Jenkins and Jenkins agent + Ansible on Jenkins host
+# Jenkins Master and Agent(slave) brought up with the help of Vagrant and ansible which is hosted along with Jenkins master.
 
 It is a simple configuration for Vagrant+virtualbox that deploys two servers: 
 
@@ -6,13 +6,18 @@ It is a simple configuration for Vagrant+virtualbox that deploys two servers:
 
 2. Jenkins slave host for which Ansible deploys Docker and Jenkins slave roles. 
 
-The ansible playbook takes care of initial Jenkins configuration where it:
+Ansible is deployed on the Jenkins master host, where with the help of a playbook takes care of 
 
-- Configures Jenkis master as it supplies a list of basic plugins: ssh, git, github, docker, credential
-- Configures slave credential in master with id "ci_slave" via cli in default credential domain and store via shell -> credential.sh and credential.xml
+- Installs and configures Jenkis master server, setups admin credentials and supplies a list of few base plugins: ssh, git, github, docker, credential
+ -> playbook.yml, requirements.yml, inventory, ansible.cfg
+ 
+ - Configures slave credential in master host via Jenkins cli with id "ci_slave" in default credential domain and store.
+ -> credential.sh and credential.xml
+ 
 - Configures Jenkins slave host with slave and docker roles from ansible galaxy.
+ -> playbook.yml
 
-Main use cases would be to pull and build projects from GitHub repositories, mainly Dockerfiles to build and run image containers.
+Main use cases would be to pull and build projects from GitHub repositories, mainly Dockerfiles to be build and run as containers.
 
 Of course - security is not priority on this project, as it is just a proof of concept and i made it for excersise at my home lab, while i study about functionalities of Jenkins, Docker and Ansible
 
