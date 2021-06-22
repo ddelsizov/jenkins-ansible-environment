@@ -26,6 +26,7 @@ Of course - security is not priority on this project, as it is just a proof of c
 - Tighten the security 
 - Deploy more useful plugins for Jenkins once identified
 - Clean remaning hickups here and there
+- Setup Jobs and projects programatically
 
 
 
