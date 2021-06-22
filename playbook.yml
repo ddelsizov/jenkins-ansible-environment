@@ -3,7 +3,7 @@
   hosts: controller
   become: true
   vars:
-    jenkins_hostname: jenkins.home.lab
+    jenkins_hostname: localhost
     java_packages:
       - java-11-openjdk-devel.x86_64
       
