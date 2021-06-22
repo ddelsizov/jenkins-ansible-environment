@@ -16,6 +16,23 @@
     - git
     - github
     - credentials
+    - workflow-aggregator
+    - checkstyle
+    - workflow-aggregator
+    - workflow-api
+    - workflow-basic-steps
+    - workflow-cps
+    - workflow-cps-global-lib
+    - workflow-durable-task-step
+    - workflow-job
+    - workflow-scm-step
+    - workflow-step-api
+    - workflow-support
+    - pipeline-stage-view
+    - jquery-detached
+    - momentjs
+    - handlebars
+    - pipeline-rest-api
     
   roles:
     - role: geerlingguy.java
@@ -38,7 +55,7 @@
     master_password: secretpassword
     slave_linux_jenkins_cred_id: ci_slave
     slave_linux_jenkins_username: jenkins
-    slave_linux_jenkins_password: secretpass
+    slave_linux_jenkins_password: secretpassword
     slave_linux_user_group: jenkins
     slave_agent_name: slavehost
     slave_executors_num: 5
