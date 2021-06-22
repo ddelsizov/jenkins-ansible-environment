@@ -10,8 +10,9 @@ echo "*** Add hosts"
 echo "192.168.99.100 jenkins.home.lab jenkins" >> /etc/hosts
 echo "192.168.99.101 slave.home.lab slave" >> /etc/hosts
 
-echo "***Install Java"
+echo "***Install Java  and additional python libs"
 sudo dnf install -y java-11-openjdk-devel
+sudo dnf install -y python3-libselinux python3-policycoreutils python3-libsemanage
 
 echo "*** Add hosts, open firewall"
 
