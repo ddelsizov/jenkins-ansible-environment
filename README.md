@@ -8,7 +8,7 @@ It is a simple configuration for Vagrant+virtualbox that deploys two servers:
 
 Ansible is deployed on the Jenkins master host, where with the help of a playbook takes care of 
 
-- Installs and configures Jenkis master server, setups admin credentials and supplies a list of few base plugins: ssh, git, github, docker, credential
+- Installs and configures Jenkis master server, setups admin credentials and supplies a list of few base plugins: ssh, git, github, docker, credential and others
  -> playbook.yml, requirements.yml, inventory, ansible.cfg
  
  - Configures slave credential in master host via Jenkins cli with id "ci_slave" in default credential domain and store.
