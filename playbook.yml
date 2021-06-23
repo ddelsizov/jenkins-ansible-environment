@@ -16,6 +16,7 @@
     - git
     - github
     - credentials
+    - blueocean
 
   roles:
     - role: geerlingguy.java
