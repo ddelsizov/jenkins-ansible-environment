@@ -29,7 +29,6 @@ Vagrant.configure(2) do |config|
 	sudo echo "jenkins:secretpassword" | sudo chpasswd
 	sudo echo 'jenkins ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 	sudo usermod -s /bin/bash jenkins
-	sudo echo "jenkins:secretpassword" | sudo chpasswd
 EOS
     jenkins.vm.provision "ansible_local" do |ansible|
     ansible.become = true
