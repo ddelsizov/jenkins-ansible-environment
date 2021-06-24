@@ -19,7 +19,8 @@ Ansible is deployed on the Jenkins master host, where with the help of a playboo
     -> Configures slave credentials in master host via Jenkins cli with id "ci_slave" in default credential domain and store.
         -> credential.sh and credential.xml
 
-Jenkinsfile is added with simple pipeline definition with sh commands that Builds, Runs and Tests a simple apache container serving a basic webpage.
+Jenkinsfile is added in a target repository ( https://github.com/ddelsizov/basic-docker-poc.git) with simple pipeline definition with sh commands that Builds, Runs and Tests a simple apache container serving a basic webpage.
+
 Can be used to create a pipeline in Blue Ocean or Multibranch pipeline in Jenkins.
 
 Should be customized where needed.
