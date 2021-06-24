@@ -16,8 +16,10 @@ Ansible is deployed on the Jenkins master host, where with the help of a playboo
     -> Configures Jenkins slave host with docker and slave roles from ansible galaxy.
         Files: slaveconf.sh, playbook.yml, requirements.yml, inventory, ansible.cfg
 
-    -> Configures slave credentials in master host via Jenkins cli with id "ci_slave" in default credential domain and store.
-        -> credential.sh and credential.xml
+    -> Configures slave credentials in master host via Jenkins cli.
+        Credentials id is "ci_slave" 
+        
+        Files: credential.sh and credential.xml
 
 Jenkinsfile is added in a target repository ( https://github.com/ddelsizov/basic-docker-poc.git) with simple pipeline definition with sh commands that Builds, Runs and Tests a simple apache container serving a basic webpage.
 
