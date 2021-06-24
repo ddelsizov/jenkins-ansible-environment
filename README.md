@@ -2,7 +2,8 @@
 
 
 
-It is a simple bundle of configuration and provisioning files for Vagrant+Virtualbox that deploys two servers:
+It is a simple bundle of configuration and provisioning files for Vagrant+Virtualbox that deploys two servers.
+Implementing different ways of provisioning and config, for excercise purposes - strictly home lab usage, not fit for prod. systems.
 
     Jenkins master host + Ansible
     Jenkins slave host for which Ansible deploys Docker and Jenkins slave roles.
