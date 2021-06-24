@@ -1,31 +1,58 @@
 # Jenkins Master and Agent(slave) brought up with the help of Vagrant and ansible which is hosted along with Jenkins master.
 
-Often updated and tinkered with, while i explore the products functionalities.
 
-It is a simple configuration for Vagrant+virtualbox that deploys two servers: 
 
-1. Jenkins master host + Ansible
+It is a simple bundle of configuration and provisioning files for Vagrant+Virtualbox that deploys two servers:
 
-2. Jenkins slave host for which Ansible deploys Docker and Jenkins slave roles. 
+    Jenkins master host + Ansible
+    Jenkins slave host for which Ansible deploys Docker and Jenkins slave roles.
 
-Ansible is deployed on the Jenkins master host, where with the help of a playbook takes care of 
+Ansible is deployed on the Jenkins master host, where with the help of a playbook takes care of below tasks:
 
-- Installs and configures Jenkis master server via role from ansible galaxy, setups admin credentials and supplies a list of few base plugins: ssh, git, github, docker, credential and others
- -> playbook.yml, requirements.yml, inventory, ansible.cfg
- 
- - Configures slave credential in master host via Jenkins cli with id "ci_slave" in default credential domain and store.
- -> credential.sh and credential.xml
- 
-- Configures Jenkins slave host with docker and slave roles from ansible galaxy.
- -> playbook.yml
+    Installs and configures Jenkis master server via role from ansible galaxy, setups admin credentials and installs few useful plugins and their dependencies from a list: ssh, git, github, docker, credential, blueocean.
 
-Main use cases would be to pull and build projects from GitHub repositories, mainly Dockerfiles to be build and run as containers.
+    Configures Jenkins slave host with docker and slave roles from ansible galaxy.
 
-Of course - security is not priority on this project, as it is just a proof of concept and i made it for excersise at my home lab, while i study about functionalities of Jenkins, Docker and Ansible
+    -> playbook.yml, requirements.yml, inventory, ansible.cfg
+
+    Configures slave credentials in master host via Jenkins cli with id "ci_slave" in default credential domain and store.
+
+    -> credential.sh and credential.xml
+
+Jenkinsfile is added with simple pipeline definition that Builds, Runs and Tests a simple apache container, with basic webpage.
+Can be used to create a pipeline in Blue Ocean or Multibranch pipeline in Jenkins.
+
+Should be customized where needed.
+Defined variables, that can be modified:
+
+Vagrantfile
+
+    sudo echo "jenkins:secretpassword" | sudo chpasswd
+
+slaveconf.sh
+
+    sudo echo "jenkins:secretpassword" | sudo chpasswd
+
+credential.xml
+
+    jenkins
+    secretpassword
+
+In playbook.yml
+
+    jenkins_admin_username:
+    jenkins_admin_password:
+
+    master_username:
+    master_password:
+    slave_linux_jenkins_cred_id: ci_slave
+    slave_linux_jenkins_username:
+    slave_linux_jenkins_password:
+
 
 # To Do
 
-- Tighten the security 
+- Tighten the security - Currently it is all plaintext, non-ssh keys operation for use in home lab.
 - Deploy more useful plugins for Jenkins once identified
 - Clean remaning hickups here and there
 - Setup Jobs and projects programatically
