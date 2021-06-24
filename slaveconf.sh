@@ -11,7 +11,7 @@ echo "192.168.99.100 jenkins.home.lab jenkins" >> /etc/hosts
 echo "192.168.99.101 slave.home.lab slave" >> /etc/hosts
 
 echo "***Install Java  and additional python libs"
-sudo dnf install -y java-11-openjdk-devel
+sudo dnf install java-11-openjdk-devel -y
 sudo dnf install python3 -y
 sudo dnf install python3-libselinux -y
 
@@ -21,4 +21,5 @@ sudo echo "192.168.99.100 jenkins.home.lab jenkins" >> /etc/hosts
 sudo echo "192.168.99.101 slave.home.lab slave" >> /etc/hosts
 sudo firewall-cmd --add-port=80/tcp --permanent
 sudo firewall-cmd --add-port=8888/tcp --permanent
+sudo firewall-cmd --add-port=8889/tcp --permanent
 sudo firewall-cmd --reload
