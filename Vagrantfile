@@ -10,6 +10,7 @@ Vagrant.configure(2) do |config|
     slave.vm.hostname = "slave.home.lab"
     slave.vm.network "private_network", ip: "192.168.99.101"
     slave.vm.network "forwarded_port", guest: 80, host: 8888
+    slave.vm.network "forwarded_port", guest: 8888, host: 8889
     slave.vm.provision "shell", path: "slaveconf.sh"
   end
 
