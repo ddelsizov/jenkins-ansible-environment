@@ -51,6 +51,7 @@ In playbook.yml
 
 # To Do
 
+- Group files in respective folders for better aestetics
 - Tighten the security - Currently it is all plaintext, non-ssh keys operation for use in home lab.
 - Deploy more useful plugins for Jenkins once identified
 - Clean remaning hickups here and there
