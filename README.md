@@ -9,17 +9,16 @@ It is a simple bundle of configuration and provisioning files for Vagrant+Virtua
 
 Ansible is deployed on the Jenkins master host, where with the help of a playbook takes care of below tasks:
 
-    Installs and configures Jenkis master server via role from ansible galaxy, setups admin credentials and installs few useful plugins and their dependencies from a list: ssh, git, github, docker, credential, blueocean.
+    -> Installs and configures Jenkis master server via role from ansible galaxy, 
+        -> Setups admin credentials and installs few useful plugins and their dependencies from a list.
 
-    Configures Jenkins slave host with docker and slave roles from ansible galaxy.
+    -> Configures Jenkins slave host with docker and slave roles from ansible galaxy.
+        Files: slaveconf.sh, playbook.yml, requirements.yml, inventory, ansible.cfg
 
-    -> playbook.yml, requirements.yml, inventory, ansible.cfg
+    -> Configures slave credentials in master host via Jenkins cli with id "ci_slave" in default credential domain and store.
+        -> credential.sh and credential.xml
 
-    Configures slave credentials in master host via Jenkins cli with id "ci_slave" in default credential domain and store.
-
-    -> credential.sh and credential.xml
-
-Jenkinsfile is added with simple pipeline definition that Builds, Runs and Tests a simple apache container, with basic webpage.
+Jenkinsfile is added with simple pipeline definition with sh commands that Builds, Runs and Tests a simple apache container serving a basic webpage.
 Can be used to create a pipeline in Blue Ocean or Multibranch pipeline in Jenkins.
 
 Should be customized where needed.
