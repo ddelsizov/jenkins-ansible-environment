@@ -15,7 +15,7 @@ Ansible is deployed on the Jenkins master host, where with the help of a playboo
 
     -> Configures Jenkins slave host with docker and slave roles from ansible galaxy.
     
-           Files: slaveconf.sh, playbook.yml, requirements.yml, inventory, ansible.cfg
+           Files: playbook.yml, requirements.yml, inventory, ansible.cfg
 
     -> Configures slave credentials in master host via Jenkins cli.
         Credentials id is "ci_slave" 
@@ -31,11 +31,9 @@ Defined variables, that can be modified:
 
 Vagrantfile
 
-    sudo echo "jenkins:secretpassword" | sudo chpasswd
+    $configureMaster and $configureSlave:
+    "jenkins:secretpassword"
 
-slaveconf.sh
-
-    sudo echo "jenkins:secretpassword" | sudo chpasswd
 
 credential.xml
 
