@@ -47,7 +47,6 @@ Vagrant.configure(2) do |config|
     jenkins.vm.hostname = "jenkins.home.lab"
     jenkins.vm.network "private_network", ip: "192.168.99.100"
     jenkins.vm.network "forwarded_port", guest: 8080, host: 8090
-    jenkins.vm.synced_folder "jenkins", "/vagrant/jenkins/master/", mount_options: ["dmode=755", "fmode=755"]
 	jenkins.vm.synced_folder ".", "/vagrant/", mount_options: ["dmode=755", "fmode=755"]
     jenkins.vm.provision "shell", inline: $configureMaster
 	
@@ -56,7 +55,7 @@ Vagrant.configure(2) do |config|
     ansible.install_mode = :default
     ansible.limit = "all"
     ansible.galaxy_command = "sudo ansible-galaxy install --role-file=%{role_file} --roles-path=%{roles_path} --force"
-    ansible.galaxy_role_file = "/vagrant/jenkins/master/requirements.yml"
+    ansible.galaxy_role_file = "/vagrant/jenkins/master/master-requirements.yml"
     ansible.galaxy_roles_path = "/etc/ansible/roles"
     ansible.inventory_path = "/vagrant/jenkins/inventory"
     ansible.playbook = "/vagrant/jenkins/master/master-playbook.yml"
@@ -67,7 +66,6 @@ Vagrant.configure(2) do |config|
     slave.vm.hostname = "slave.home.lab"
     slave.vm.network "private_network", ip: "192.168.99.101"
     slave.vm.network "forwarded_port", guest: 80, host: 8888
-	slave.vm.synced_folder "jenkins", "/vagrant/jenkins/slave/", mount_options: ["dmode=755", "fmode=755"]
 	slave.vm.synced_folder ".", "/vagrant/", mount_options: ["dmode=755", "fmode=755"]
     slave.vm.provision "shell", inline: $configureSlave
 	
@@ -76,11 +74,11 @@ Vagrant.configure(2) do |config|
     ansible.install_mode = :default
     ansible.limit = "all"
     ansible.galaxy_command = "sudo ansible-galaxy install --role-file=%{role_file} --roles-path=%{roles_path} --force"
-    ansible.galaxy_role_file = "/vagrant/jenkins/requirements.yml"
+    ansible.galaxy_role_file = "/vagrant/jenkins/slave/slave-requirements.yml"
     ansible.galaxy_roles_path = "/etc/ansible/roles"
     ansible.inventory_path = "/vagrant/jenkins/inventory"
-    ansible.playbook = "/vagrant/jenkins/slave-playbook.yml"
-	slave.vm.provision "shell", script: "/vagrant/jenkins/createjob.sh"
+    ansible.playbook = "/vagrant/jenkins/slave/slave-playbook.yml"
+	slave.vm.provision "shell", path: "/vagrant/jenkins/createjob.sh"
     end
   end
  end
