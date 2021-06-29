@@ -2,7 +2,7 @@
 # 
 # Create Jenkins create job
 # 
-cat <<EOF | java -jar /opt/jenkins-cli.jar -s http://localhost:8080/ -http -auth ddelsizov:secretpassword create-job Docker-GitHub-Final
+cat <<EOF | java -jar /opt/jenkins-cli.jar -s http://localhost:8080/ -http -auth ddelsizov:secretpassword create-job GitHub-Pull-Docker
 <?xml version='1.1' encoding='UTF-8'?>
 <project>
   <actions/>
@@ -37,7 +37,7 @@ cat <<EOF | java -jar /opt/jenkins-cli.jar -s http://localhost:8080/ -http -auth
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers>
     <hudson.triggers.SCMTrigger>
-      <spec>H/2 * * * *</spec>
+      <spec>5 * * * *</spec>
       <ignorePostCommitHooks>false</ignorePostCommitHooks>
     </hudson.triggers.SCMTrigger>
   </triggers>
@@ -46,18 +46,24 @@ cat <<EOF | java -jar /opt/jenkins-cli.jar -s http://localhost:8080/ -http -auth
   <builders>
     <hudson.tasks.Shell>
       <command>
-	  docker stop "$(docker ps -a -q)"
-docker rm "$(docker ps -a -q)"
-rm -rf /opt/jenkins/projects/*
-git clone https://github.com/ddelsizov/basic-docker-poc /opt/jenkins/projects/docker
+#!/bin/bash -l
+/vagrant/cleanup.sh \
+git clone https://github.com/ddelsizov/basic-docker-poc /opt/jenkins/projects/docker \
 docker image build -t apache-1 /opt/jenkins/projects/docker/
 </command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
       <command>docker container run -d -p 80:80 --name apache-web apache-1</command>
     </hudson.tasks.Shell>
+	<hudson.tasks.Shell>
+      <command>
+#!/bin/bash -l
+/vagrant/test.sh
+	  </command>
+    </hudson.tasks.Shell>
   </builders>
   <publishers/>
   <buildWrappers/>
 </project>
 EOF
+
