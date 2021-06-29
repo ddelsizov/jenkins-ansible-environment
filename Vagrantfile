@@ -4,6 +4,7 @@
 $configureMaster = <<-SCRIPT
 	echo "192.168.99.100 jenkins.home.lab jenkins" >> /etc/hosts
 	echo "192.168.99.101 slave.home.lab slave" >> /etc/hosts
+	sudo dnf install git -y
 	sudo firewall-cmd --add-port=8080/tcp --permanent
 	sudo firewall-cmd --reload
 	sudo useradd jenkins
@@ -57,9 +58,6 @@ Vagrant.configure(2) do |config|
     jenkins.vm.network "forwarded_port", guest: 8080, host: 8090
     jenkins.vm.synced_folder ".", "/vagrant", mount_options: ["dmode=755", "fmode=755"]	
     jenkins.vm.provision "shell", inline: $configureMaster
-  end
-	  
-
     jenkins.vm.provision "ansible_local" do |ansible|
     ansible.become = true
     ansible.install_mode = :default
