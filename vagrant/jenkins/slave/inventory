@@ -1,0 +1,12 @@
+jenkins ansible_connection=local
+slave ansible_connection=ssh ansible_host=192.168.99.101 ansible_port=22 ansible_user=vagrant ansible_password=vagrant
+
+[controller]
+jenkins
+
+[slave_servers]
+slave
+
+[multi]
+jenkins
+slave
