@@ -1,5 +1,0 @@
-# from galaxy
-- src: geerlingguy.jenkins
-- src: geerlingguy.java
-- src: geerlingguy.docker
-- src: lean_delivery.jenkins_slave
