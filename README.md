@@ -1,5 +1,4 @@
-# Jenkins Master and Agent(slave) brought up with the help of Vagrant and ansible which is hosted along with Jenkins master.
-
+# Jenkins Master and Agent(slave) brought up with the help of Vagrant and Ansible
 
 
 It is a simple bundle of configuration and provisioning files for Vagrant+Virtualbox that deploys two servers.
@@ -7,29 +6,43 @@ Implementing different ways of provisioning and config, for excercise purposes -
 
     Jenkins master host + Ansible
     Jenkins slave host for which Ansible deploys Docker and Jenkins slave roles.
+    
+        File:
+        Vagrantfile
 
-Ansible is deployed on the Jenkins master host, where with the help of a playbook takes care of below tasks:
+Ansible is taking care of the following tasks:
 
     -> Installs and configures Jenkis master server via role from ansible galaxy, 
         -> Setups admin credentials and installs few useful plugins and their dependencies from a list.
+        
+         Files: 
+           master-playbook.yml, 
+           master-requirements.yml,
+           inventory, ansible.cfg,
+           
 
     -> Configures Jenkins slave host with docker and slave roles from ansible galaxy.
     
            Files: 
-           master-playbook.yml, 
            slave-playbook.yml, 
-           master-requirements.yml,
            slave-requierements.yml
            inventory, ansible.cfg
 
     -> Configures slave credentials in master host via Jenkins cli.
            Credentials id is "ci_slave" 
            
-           Files: credential.sh and credential.xml
+           Files: 
+           credential.sh 
+           credential.xml
            
-    -> Creates a job from createjob.sh file. The same job is packed in a Jenkins file in the target repo, but here some steps are pushed in the job as scripts              cleanup.sh, test.sh
+    -> Creates a job on Master from createjob.sh file. 
+    The same job is packed in a Jenkins file in the target repo, but here some steps are pushed in the job as scripts.
+            
+            Files:
+            cleanup.sh (stops all containers, removes them, clears the project folder). This way we ensure clean build folders and environment.
+            test.sh (runs curl to check http status)
     
-    The job should run a build once the slave host is up. 
+    The job should run a build and test once the slave host is up. 
 
 Simple project for job is added with repository ( https://github.com/ddelsizov/basic-docker-poc.git) that runs shell commands that Build, Runs and Tests simple apache container serving basic webpage.
 
