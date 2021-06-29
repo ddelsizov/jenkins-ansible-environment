@@ -15,16 +15,24 @@ Ansible is deployed on the Jenkins master host, where with the help of a playboo
 
     -> Configures Jenkins slave host with docker and slave roles from ansible galaxy.
     
-           Files: playbook.yml, requirements.yml, inventory, ansible.cfg
+           Files: 
+           master-playbook.yml, 
+           slave-playbook.yml, 
+           master-requirements.yml,
+           slave-requierements.yml
+           inventory, ansible.cfg
 
     -> Configures slave credentials in master host via Jenkins cli.
-        Credentials id is "ci_slave" 
-        
+           Credentials id is "ci_slave" 
+           
            Files: credential.sh and credential.xml
+           
+    -> Creates a job from createjob.sh, which is expected to be build once the slave host is up.
 
-Jenkinsfile is added in a target repository ( https://github.com/ddelsizov/basic-docker-poc.git) with simple pipeline definition with sh commands that Builds, Runs and Tests a simple apache container serving a basic webpage.
+Simple project for job is added with repository ( https://github.com/ddelsizov/basic-docker-poc.git) that runs shell commands that Build, Runs and Tests simple apache container serving basic webpage.
 
-Can be used to create a pipeline in Blue Ocean or Multibranch pipeline in Jenkins.
+Test is done via: 
+
 
 Should be customized where needed.
 Defined variables, that can be modified:
@@ -40,7 +48,7 @@ credential.xml
     jenkins
     secretpassword
 
-In playbook.yml
+In playbooks:
 
     jenkins_admin_username:
     jenkins_admin_password:
@@ -57,8 +65,6 @@ In playbook.yml
 - Group files in respective folders for better aestetics
 - Tighten the security - Currently it is all plaintext, non-ssh keys operation for use in home lab.
 - Deploy more useful plugins for Jenkins once identified
-- Clean remaning hickups here and there
-- Setup Jobs and projects programatically
-
+- Clean up remaning hickups here and there, group files within directories, tidy up the deployment
 
 
