@@ -50,6 +50,11 @@ cat <<EOF | java -jar /opt/jenkins-cli.jar -s http://localhost:8080/ -http -auth
    </command>
   </hudson.tasks.Shell>
     <hudson.tasks.Shell>
+   <command>
+ git clone https://github.com/ddelsizov/basic-docker-poc /opt/jenkins/projects/docker
+   </command>
+  </hudson.tasks.Shell>
+  <hudson.tasks.Shell>
  <command>
 docker image build -t apache-1 /opt/jenkins/projects/docker/
 </command>
