@@ -48,9 +48,10 @@ Simple project for job is added with repository ( https://github.com/ddelsizov/b
 
 Test is done with the help of curl, that parses the response code of the container: 
 
-    #!/bin/bash -l
-    options=\'-o /dev/null -w %{http_code} -sfI\'
+    #!/bin/bash
+    options='-o /dev/null -w %{http_code} -sfI'
     page="http://localhost:80"
+    sleep 60
     outstr=$(curl $options $page)
     retVal=$?
     [[ $retVal -eq 0 ]] || { echo "ERROR should have been able to pull $page, retVal=$retVal, code=$outstr"; exit 4; }
