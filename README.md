@@ -31,8 +31,15 @@ Ansible is deployed on the Jenkins master host, where with the help of a playboo
 
 Simple project for job is added with repository ( https://github.com/ddelsizov/basic-docker-poc.git) that runs shell commands that Build, Runs and Tests simple apache container serving basic webpage.
 
-Test is done via: 
+Test is done with the help of curl, that parses the response code of the container: 
 
+    #!/bin/bash -l
+    options=\'-o /dev/null -w %{http_code} -sfI\'
+    page="http://localhost:80"
+    outstr=$(curl $options $page)
+    retVal=$?
+    [[ $retVal -eq 0 ]] || { echo "ERROR should have been able to pull $page, retVal=$retVal, code=$outstr"; exit 4; }
+    echo "OK pulling from $page successful, retVal=$retVal, code=$outstr"
 
 Should be customized where needed.
 Defined variables, that can be modified:
