@@ -73,6 +73,7 @@ $configureSlave = <<-SCRIPT
 	sudo firewall-cmd --add-port=8888/tcp --permanent
 	sudo firewall-cmd --add-port=8889/tcp --permanent
 	sudo firewall-cmd --add-port=3306/tcp --permanent
+	sudo firewall-cmd --add-port=33060/tcp --permanent
 	sudo firewall-cmd --add-port=2377/tcp --permanent
 	sudo firewall-cmd --add-port=7946/tcp --permanent
 	sudo firewall-cmd --add-port=7946/udp --permanent
@@ -109,6 +110,7 @@ $configureSlave1 = <<-SCRIPT
 	sudo firewall-cmd --add-port=7946/tcp --permanent
 	sudo firewall-cmd --add-port=7946/udp --permanent
     sudo firewall-cmd --add-port=4789/tcp --permanent
+	sudo firewall-cmd --add-port=33060/tcp --permanent
 	sudo firewall-cmd --reload
 SCRIPT
 
@@ -119,7 +121,7 @@ Vagrant.configure(2) do |config|
     jenkins.vm.hostname = "jenkins.home.lab"
     jenkins.vm.network "private_network", ip: "192.168.99.100"
     jenkins.vm.network "forwarded_port", guest: 8080, host: 8090
-	jenkins.vm.synced_folder "./vagrant/jenkins/master", "/vagrant", mount_options: ["dmode=755", "fmode=755"]
+	jenkins.vm.synced_folder "./vagrant/jenkins/master", "/vagrant"
     jenkins.vm.provision "shell", inline: $configureMaster	
     end
    config.vm.define "slave" do |slave|
@@ -127,15 +129,14 @@ Vagrant.configure(2) do |config|
     slave.vm.hostname = "slave.home.lab"
     slave.vm.network "private_network", ip: "192.168.99.101"
     slave.vm.network "forwarded_port", guest: 80, host: 8888
-	slave.vm.synced_folder "./vagrant/docker", "/vagrant", mount_options: ["dmode=755", "fmode=755"]
+	slave.vm.synced_folder "./vagrant/docker", "/vagrant"
     slave.vm.provision "shell", inline: $configureSlave
     end
    config.vm.define "slave1" do |slave1|
     slave1.vm.box = "shekeriev/centos-8-minimal"
     slave1.vm.hostname = "slave1.home.lab"
     slave1.vm.network "private_network", ip: "192.168.99.102"
-    slave1.vm.network "forwarded_port", guest: 3306, host: 3306
-	slave1.vm.synced_folder "./vagrant/docker", "/vagrant", mount_options: ["dmode=755", "fmode=755"]
+	slave1.vm.synced_folder "./vagrant/docker", "/vagrant"
     slave1.vm.provision "shell", inline: $configureSlave1	
 	end  
     config.vm.define "ansible" do |ansible|
