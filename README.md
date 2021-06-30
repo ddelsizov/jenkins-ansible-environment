@@ -6,19 +6,19 @@ Implementing different ways of provisioning and config, for excercise purposes -
 
 Vagrant deploys 4 VMs: 
 
-Jenkins Master node
-Two Agent(slave) nodes
-Ansible node
+  Jenkins Master node
+  Two Agent(slave) nodes
+  Ansible node
 
-Once vagrant spins up all four VMs, Ansible kick-starts provisioning of the machines.
-It is expected that below task do not need human intervention:
+   Once vagrant spins up all four VMs, Ansible kick-starts provisioning of the machines.
+  It is expected that below task do not need human intervention:
 
-Deploy jenkins slave roles+docker on the slave hosts
-Configure credentials and setup two projects in Jenkins Master
-Automatically pulls two docker images from github repo ( https://github.com/ddelsizov/two-docker-images )
-Runs builds of the docker images found in the repository.
-Run the containers based on the built images
-Checks the repo for changes
+  Deploy jenkins slave roles+docker on the slave hosts
+  Configure credentials and setup two projects in Jenkins Master
+  Automatically pulls two docker images from github repo ( https://github.com/ddelsizov/two-docker-images )
+  Runs builds of the docker images found in the repository.
+  Run the containers based on the built images
+  Checks the repo for changes
 
 Clean up procedure is implemented in the projects so that builds will stop and remove containers, will clean up the work-directory and will pull fresh copy of the git repo before building and running the images again.
 
