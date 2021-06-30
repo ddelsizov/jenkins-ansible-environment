@@ -1,0 +1,56 @@
+---
+- hosts: slave_servers
+    - name: Install EPEL Repository
+      dnf:
+        name=epel-release
+        state=present
+    - name: Install NRPE
+      dnf:
+        name=nrpe,nagios-plugins-nrpe,nagios-plugins-all
+        enablerepo=powertools
+        state=present  
+    - name: Substitute nrpe.cfg
+      copy:
+        src=/vagrant/nrpe.cfg
+        dest=/etc/nagios/nrpe.cfg
+    - name: Add nrpe to sudoers.d
+      copy:
+        src=/vagrant/nrpe.sudo
+        dest=/etc/sudoers.d/nrpe
+    - name: Add nagios to sudoers.d
+      copy:
+        src=/vagrant/nagios.sudo
+        dest=/etc/sudoers.d/nagios
+    - name: Adding user nrpe to docker group  
+      user: name=nrpe
+        groups=docker
+        append=yes
+    - name: Adding user nagios to docker group  
+      user: name=nagios
+        groups=docker
+        append=yes
+    - name: Copy additional docker plugin
+      copy:
+        src=/vagrant/check_docker_container.sh
+        dest=/usr/lib64/nagios/plugins/check_docker_container.sh
+    - name: Turn on execute permission for check_docker_container.sh
+      file:
+        path=/usr/lib64/nagios/plugins/check_docker_container.sh
+        mode="a+x"
+    - name: Enable and start NRPE
+      service:
+        name=nrpe
+        state=started
+        enabled=true
+    - name: Enable HTTP communication
+      firewalld:
+        service: http
+        permanent: true
+        state: enabled
+        immediate: true
+    - name: Enable NRPE (5666/tcp) port
+      firewalld:
+        port: 5666/tcp
+        permanent: true
+        state: enabled
+        immediate: true

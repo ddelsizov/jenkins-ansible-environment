@@ -1,0 +1,43 @@
+---
+- name: Install Docker on Slave
+  become: true
+  hosts: slave1
+  roles:
+    - geerlingguy.docker
+
+  tasks:
+    - name: Add vagrant user to docker group
+      user:
+        name: 'vagrant'
+        groups: docker
+        append: yes
+        
+    - name: Add jenkins user to docker group
+      user:
+        name: 'jenkins1'
+        groups: docker
+        append: yes
+        
+- name: Run Init Swarm
+  hosts: slave1
+  tasks:
+    - name: Run script
+      shell: /vagrant/docker-worker.sh
+
+- name: Setup Slave role
+  hosts: slave1
+  
+  vars:
+    master_host: jenkins.home.lab
+    master_port: 8080
+    master_username: ddelsizov
+    master_password: secretpassword
+    slave_linux_jenkins_cred_id: ci_slave1
+    slave_linux_jenkins_username: jenkins1
+    slave_linux_jenkins_password: secretpassword1
+    slave_linux_user_group: jenkins1
+    slave_agent_name: slavehost1
+    slave_executors_num: 3
+
+  roles:
+    - role: lean_delivery.jenkins_slave

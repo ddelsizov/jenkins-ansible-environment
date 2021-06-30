@@ -1,0 +1,17 @@
+jenkins ansible_connection=ssh ansible_host=192.168.99.100 ansible_port=22 ansible_user=vagrant ansible_password=vagrant
+slave ansible_connection=ssh ansible_host=192.168.99.101 ansible_port=22 ansible_user=vagrant ansible_password=vagrant
+slave1 ansible_connection=ssh ansible_host=192.168.99.102 ansible_port=22 ansible_user=vagrant ansible_password=vagrant
+nagios ansible_connection=ssh ansible_host=192.168.99.104 ansible_port=22 ansible_user=vagrant ansible_password=vagrant
+
+[jenkins_master]
+jenkins
+
+[slave_servers]
+slave
+slave1
+
+[multi]
+jenkins
+slave
+slave1
+nagios
