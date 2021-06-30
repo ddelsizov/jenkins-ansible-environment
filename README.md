@@ -24,6 +24,10 @@ Clean up procedure is implemented in the projects so that builds will stop and r
 
 Of course, it can be modified and updated as needed.
 
+I had to clone a whole role from ansible galaxy and suply it manually, as it needed modifications in order to resolve a problem where it errors out on python-selinx configuration step.
+
+Common problem with availability/naming of python3 packages for centos8. 
+
 Jenkins should be accessible on http://localhost:8090 , the Webserver container, should be accessible on http://localhost:8888
 
 # To Do
