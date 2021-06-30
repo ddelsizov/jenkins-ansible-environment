@@ -62,7 +62,7 @@ docker image build -t mysql-1 /opt/jenkins/projects/docker/mysql
 </command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
-      <command>docker container run -d --net home-network --name mysql-1 --env="MYSQL_ROOT_PASSWORD=1234567" --publish 192.168.99.102:33060:3306 mysql-1</command>
+      <command>docker container run -d --net home-network --name mysql-1 --env="MYSQL_ROOT_PASSWORD=1234567" --publish 192.168.99.102:3306:3306 mysql-1</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>
