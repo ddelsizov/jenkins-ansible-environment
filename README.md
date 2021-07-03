@@ -7,26 +7,21 @@ Implementing different ways of provisioning and config, for excercise purposes -
 Vagrant deploys 4 VMs: 
 
   * Jenkins Master node
-  * Two Agent(slave) nodes
+  * Two Jenkins agent(slave) nodes, running docker engines, joined in overlay network via docker swarm
   * Ansible node
 
 Once vagrant spins up all four VMs, Ansible kick-starts provisioning of the machines.
-  * It is expected that below task do not need human intervention:
+  * It is expected that below task do not need human intervention, other than customizing the configurations before running "vagrant up":
 
-  1. Deploy jenkins slave roles+docker on the slave hosts
-  2. Configure credentials and setup two projects in Jenkins Master
-  3. Automatically pulls two docker images from github repo ( https://github.com/ddelsizov/two-docker-images )
+  1. Deploy Jenkins master node, configures credentials and adds project templates for the builds, containing clean up, pull, build and test phases.
+  2. Deploy Jenkins agent (slave) nodes, install docker on them, and join them in a docker swarm for overlay networking.
+  3. Automatically pulls two docker images Webserver and DB from my other github repo ( https://github.com/ddelsizov/two-docker-images )
   4. Runs builds of the docker images found in the repository.
   5. Run the containers based on the built images
-  6. Checks the repo for changes
+  6. Checks the repo for updates and rebuilds fresh images, once changes are detected.
 
-Clean up procedure is implemented in the projects so that builds will stop and remove containers, will clean up the work-directory and will pull fresh copy of the git repo before building and running the images again.
 
-Of course, it can be modified and updated as needed.
-
-I had to clone a whole role from ansible galaxy and suply it manually, as it needed modifications in order to resolve a problem where it errors out on python-selinx configuration step.
-
-Common problem with availability/naming of python3 packages for centos8. 
+I had to supply a hard copy of the jenkins slave role(https://github.com/lean-delivery/ansible-role-jenkins-slave) from my PC, during the provisioning phase, as it needed modifications in order to resolve a problem around CentOS8 and some python packages.
 
 Jenkins should be accessible on http://localhost:8090 , the Webserver container, should be accessible on http://localhost:8888
 
@@ -34,5 +29,5 @@ Jenkins should be accessible on http://localhost:8090 , the Webserver container,
 
 - Tighten the security - Currently it is all plaintext, non-ssh keys operation, strictly home lab usage.
 - Deploy other useful plugins for Jenkins
-- Add another host with Nagios for monitoring of the infrastructure
+- Build my own Jenkins, slave and docker roles, instead of using galaxy supplied roles.
 
