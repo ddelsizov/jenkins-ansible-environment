@@ -3,34 +3,34 @@
 
 $configureAnsible = <<-SCRIPT
 echo "* Add hosts ..."
-echo "192.168.99.100 jenkins.home.lab jenkins" >> /etc/hosts
-echo "192.168.99.101 slave.home.lab slave" >> /etc/hosts
-echo "192.168.99.102 slave1.home.lab slave1" >> /etc/hosts
-echo "192.168.99.103 ansible.home.lab ansible" >> /etc/hosts
+	echo "192.168.99.100 jenkins.home.lab jenkins" >> /etc/hosts
+	echo "192.168.99.101 slave.home.lab slave" >> /etc/hosts
+	echo "192.168.99.102 slave1.home.lab slave1" >> /etc/hosts
+	echo "192.168.99.103 ansible.home.lab ansible" >> /etc/hosts
 
 echo "* Install Ansible ..."
-dnf install -y epel-release
-dnf install -y ansible
+	dnf install -y epel-release
+	dnf install -y ansible
 
 echo "* Set Ansible configuration in /etc/ansible/ansible.cfg ..."
-cp /vagrant/ansible.cfg /etc/ansible/ansible.cfg
+	cp /vagrant/ansible.cfg /etc/ansible/ansible.cfg
 
 echo "* Set Ansible global inventory in /etc/ansible/hosts ..."
-cp /vagrant/hosts /etc/ansible/hosts
+	cp /vagrant/hosts /etc/ansible/hosts
 
 echo "* Copy Ansible playbooks in /playbooks/ ..."
-cp -R /vagrant/playbooks /playbooks
+	cp -R /vagrant/playbooks /playbooks
 
 echo "* Copy Slave role to /etc/ansible/roles ..."
-cp -avr /playbooks/lean_delivery.jenkins_slave /etc/ansible/roles
+	cp -avr /playbooks/lean_delivery.jenkins_slave /etc/ansible/roles
 
 echo "* Install Ansible role(s) from galaxy for jenkins and docker in /etc/ansible/roles ..."
-ansible-galaxy install geerlingguy.jenkins -p /etc/ansible/roles
-ansible-galaxy install geerlingguy.docker -p /etc/ansible/roles
-ansible-galaxy install geerlingguy.java -p /etc/ansible/roles
+	ansible-galaxy install geerlingguy.jenkins -p /etc/ansible/roles
+	ansible-galaxy install geerlingguy.docker -p /etc/ansible/roles
+	ansible-galaxy install geerlingguy.java -p /etc/ansible/roles
 
 echo "* Execute Ansible Playbooks ..."
-ansible-playbook /playbooks/install-all.yml
+	ansible-playbook /playbooks/install-all.yml
 SCRIPT
 
 $configureMaster = <<-SCRIPT
@@ -49,25 +49,25 @@ echo "* Add hosts ..."
 SCRIPT
 
 $configureSlave = <<-SCRIPT
-	echo "*** Add jenkins user and modify stuff"
+echo "*** Add jenkins user and modify stuff"
 	sudo useradd jenkins
 	sudo echo "jenkins:secretpassword" | sudo chpasswd
 	sudo echo 'jenkins ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 	sudo mkdir -p /opt/jenkins
 	sudo chown jenkins:jenkins -R /opt/jenkins
 
-	echo "*** Add hosts"
+echo "*** Add hosts"
 	echo "192.168.99.100 jenkins.home.lab jenkins" >> /etc/hosts
 	echo "192.168.99.101 slave.home.lab slave" >> /etc/hosts
 	echo "192.168.99.102 slave1.home.lab slave1" >> /etc/hosts
 	echo "192.168.99.103 ansible.home.lab ansible" >> /etc/hosts
 
-	echo "***Install Java  and additional python libs"
+echo "***Install Java  and additional python libs"
 	sudo dnf install java-11-openjdk-devel -y
 	sudo dnf install python3 -y
 	sudo dnf install python3-libselinux -y
 
-	echo "*** Open firewall"
+echo "*** Open firewall"
 
 	sudo firewall-cmd --add-port=80/tcp --permanent
 	sudo firewall-cmd --add-port=8888/tcp --permanent
@@ -77,30 +77,30 @@ $configureSlave = <<-SCRIPT
 	sudo firewall-cmd --add-port=2377/tcp --permanent
 	sudo firewall-cmd --add-port=7946/tcp --permanent
 	sudo firewall-cmd --add-port=7946/udp --permanent
-    sudo firewall-cmd --add-port=4789/tcp --permanent
+        sudo firewall-cmd --add-port=4789/tcp --permanent
 	sudo firewall-cmd --reload
 SCRIPT
 
 $configureSlave1 = <<-SCRIPT
-	echo "*** Add jenkins user and modify stuff"
+echo "*** Add jenkins user and modify stuff"
 	sudo useradd jenkins1
 	sudo echo "jenkins1:secretpassword1" | sudo chpasswd
 	sudo echo 'jenkins1 ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 	sudo mkdir -p /opt/jenkins1
 	sudo chown jenkins1:jenkins1 -R /opt/jenkins
 
-	echo "*** Add hosts"
+echo "*** Add hosts"
 	echo "192.168.99.100 jenkins.home.lab jenkins" >> /etc/hosts
 	echo "192.168.99.101 slave.home.lab slave" >> /etc/hosts
 	echo "192.168.99.102 slave1.home.lab slave1" >> /etc/hosts
 	echo "192.168.99.103 ansible.home.lab ansible" >> /etc/hosts
 	
-	echo "***Install Java  and additional python libs"
+echo "***Install Java  and additional python libs"
 	sudo dnf install java-11-openjdk-devel -y
 	sudo dnf install python3 -y
 	sudo dnf install python3-libselinux -y
 
-	echo "*** Open firewall"
+echo "*** Open firewall"
 
 	sudo firewall-cmd --add-port=80/tcp --permanent
 	sudo firewall-cmd --add-port=8888/tcp --permanent
@@ -109,7 +109,7 @@ $configureSlave1 = <<-SCRIPT
 	sudo firewall-cmd --add-port=2377/tcp --permanent
 	sudo firewall-cmd --add-port=7946/tcp --permanent
 	sudo firewall-cmd --add-port=7946/udp --permanent
-    sudo firewall-cmd --add-port=4789/tcp --permanent
+        sudo firewall-cmd --add-port=4789/tcp --permanent
 	sudo firewall-cmd --add-port=33060/tcp --permanent
 	sudo firewall-cmd --reload
 SCRIPT
